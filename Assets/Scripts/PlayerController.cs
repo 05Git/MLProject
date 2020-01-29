@@ -14,22 +14,10 @@ public class PlayerController : MonoBehaviour
         Block,
         Walk_Block,
         Blockstun,
-        Grab_Start,
-        Grab_Success,
-        Grab_Whiff,
-        Grabstun,
         Win,
         Lose
     };
-
-    private enum Event
-    {
-        Enter,
-        Active,
-        Exit
-    };
-
-    private float m_Health;
+    
     private float m_Speed;
     private State m_CharState;
     private State m_NextState;
@@ -40,15 +28,16 @@ public class PlayerController : MonoBehaviour
     private Rigidbody m_Rigidbody;
     private Quaternion m_Rotation = Quaternion.identity;
 
+    public Transform target;
+    public GameObject attack1Point;
+
     // Start is called before the first frame update
     void Start()
     {
         m_Animator = GetComponent<Animator>();
         m_Rigidbody = GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.Locked;
-        m_Health = 100.0f;
         m_CharState = State.Idle;
-        m_StateEvent = Event.Enter;
         m_CanAct = true;
     }
 
@@ -61,31 +50,23 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        float horizontal = Input.GetAxis("Vertical");
+        float vertical = Input.GetAxis("Horizontal");
         bool attack = Input.GetKeyDown("mouse 0");
         bool block = Input.GetKey("mouse 1");
-        bool grab = Input.GetKeyDown("left shift");
+        //bool isMoving = !Mathf.Approximately(horizontal, 0.0f) || !Mathf.Approximately(vertical, 0.0f);
+        //m_Animator.SetBool("Moving", isMoving);
 
         if (m_CanAct)
         {
-            if (grab)
-            {
-                m_CharState = State.Grab_Start;
-                attack = false;
-                block = false;
-                m_CanAct = false;
-                m_Speed = 1.0f;
-                StartCoroutine(CanActDelay(0.35f));
-            }
-
             if (attack)
             {
                 m_CharState = State.Attack;
                 block = false;
                 m_CanAct = false;
                 m_Speed = 1.0f;
-                StartCoroutine(CanActDelay(0.5f));
+                m_Animator.SetTrigger("Attack1Trigger");
+                StartCoroutine(CanActDelay(0.78f));
             }
 
             if (block)
@@ -102,7 +83,7 @@ public class PlayerController : MonoBehaviour
                 m_Speed = 2.8f;
             }
 
-            if (!grab && !attack && !block)
+            if (!attack && !block)
             {
                 if (horizontal != 0 || vertical != 0)
                 {
@@ -118,250 +99,30 @@ public class PlayerController : MonoBehaviour
 
             horizontal *= m_Speed;
             vertical *= m_Speed;
-            m_Movement.Set(horizontal * Time.deltaTime, 0.0f, vertical * Time.deltaTime);
+            m_Movement.Set(-horizontal * Time.deltaTime, 0.0f, vertical * Time.deltaTime);
             transform.Translate(m_Movement);
-        }
-
-        /*
-        if (m_CharState == State.Idle)
-        {
-            if (m_StateEvent == Event.Enter)
+            if (target != null)
             {
-                m_Speed = 0.0f;
-                m_StateEvent = Event.Active;
-            }
-            else if (m_StateEvent == Event.Active)
-            {
-                    
-                if (horizontal != 0 || vertical != 0)
-                {
-                    m_NextState = State.Walk_Normal;
-                    m_StateEvent = Event.Exit;
-                }
-                if (Input.GetKey("Mouse 1") == true)
-                {
-                    m_NextState = State.Block;
-                    m_StateEvent = Event.Exit;
-                }
-            }
-            else if (m_StateEvent == Event.Exit)
-            {
-                m_CharState = m_NextState;
-                m_StateEvent = Event.Enter;
+                transform.LookAt(target);
             }
         }
-        else if (m_CharState == State.Walk_Normal)
-        {
-            if (m_StateEvent == Event.Enter)
-            {
-                m_Speed = 5.0f;
-                m_StateEvent = Event.Active;
-            }
-            else if (m_StateEvent == Event.Active)
-            {
-                if (horizontal != 0 || vertical != 0)
-                {
-                    horizontal *= m_Speed;
-                    vertical *= m_Speed;
-                    m_Movement.Set(horizontal * Time.deltaTime, 0.0f, vertical * Time.deltaTime);
-                    transform.Translate(m_Movement);
-                }
-                else
-                {
-                    m_NextState = State.Idle;
-                    m_StateEvent = Event.Exit;
-                }
-            }
-            else if (m_StateEvent == Event.Exit)
-            {
-                m_CharState = m_NextState;
-                m_StateEvent = Event.Enter;
-            }
-        }
-        else if (m_CharState == State.Attack)
-        {
-            if (m_StateEvent == Event.Enter)
-            {
-                m_StateEvent = Event.Active;
-            }
-            else if (m_StateEvent == Event.Active)
-            {
-
-            }
-            else if (m_StateEvent == Event.Exit)
-            {
-                m_CharState = m_NextState;
-                m_StateEvent = Event.Enter;
-            }
-        }
-        else if (m_CharState == State.Hitstun)
-        {
-            if (m_StateEvent == Event.Enter)
-            {
-                m_StateEvent = Event.Active;
-            }
-            else if (m_StateEvent == Event.Active)
-            {
-
-            }
-            else if (m_StateEvent == Event.Exit)
-            {
-                m_CharState = m_NextState;
-                m_StateEvent = Event.Enter;
-            }
-        }
-        else if (m_CharState == State.Block)
-        {
-            if (m_StateEvent == Event.Enter)
-            {
-                m_Speed = 0.0f;
-                m_StateEvent = Event.Active;
-            }
-            else if (m_StateEvent == Event.Active)
-            {
-
-            }
-            else if (m_StateEvent == Event.Exit)
-            {
-                m_CharState = m_NextState;
-                m_StateEvent = Event.Enter;
-            }
-        }
-        else if (m_CharState == State.Walk_Block)
-        {
-            if (m_StateEvent == Event.Enter)
-            {
-                m_Speed = 2.5f;
-                m_StateEvent = Event.Active;
-            }
-            else if (m_StateEvent == Event.Active)
-            {
-                m_Movement.Set(horizontal * Time.deltaTime, 0.0f, vertical * Time.deltaTime);
-                transform.Translate(m_Movement);
-            }
-            else if (m_StateEvent == Event.Exit)
-            {
-                m_CharState = m_NextState;
-                m_StateEvent = Event.Enter;
-            }
-        }
-        else if (m_CharState == State.Blockstun)
-        {
-            if (m_StateEvent == Event.Enter)
-            {
-                m_StateEvent = Event.Active;
-            }
-            else if (m_StateEvent == Event.Active)
-            {
-
-            }
-            else if (m_StateEvent == Event.Exit)
-            {
-                m_CharState = m_NextState;
-                m_StateEvent = Event.Enter;
-            }
-        }
-        else if (m_CharState == State.Grab_Start)
-        {
-            if (m_StateEvent == Event.Enter)
-            {
-                m_StateEvent = Event.Active;
-            }
-            else if (m_StateEvent == Event.Active)
-            {
-
-            }
-            else if (m_StateEvent == Event.Exit)
-            {
-                m_CharState = m_NextState;
-                m_StateEvent = Event.Enter;
-            }
-        }
-        else if (m_CharState == State.Grab_Success)
-        {
-            if (m_StateEvent == Event.Enter)
-            {
-                m_StateEvent = Event.Active;
-            }
-            else if (m_StateEvent == Event.Active)
-            {
-
-            }
-            else if (m_StateEvent == Event.Exit)
-            {
-                m_CharState = m_NextState;
-                m_StateEvent = Event.Enter;
-            }
-        }
-        else if (m_CharState == State.Grab_Whiff)
-        {
-            if (m_StateEvent == Event.Enter)
-            {
-                m_StateEvent = Event.Active;
-            }
-            else if (m_StateEvent == Event.Active)
-            {
-
-            }
-            else if (m_StateEvent == Event.Exit)
-            {
-                m_CharState = m_NextState;
-                m_StateEvent = Event.Enter;
-            }
-        }
-        else if (m_CharState == State.Grabstun)
-        {
-            if (m_StateEvent == Event.Enter)
-            {
-                m_StateEvent = Event.Active;
-            }
-            else if (m_StateEvent == Event.Active)
-            {
-
-            }
-            else if (m_StateEvent == Event.Exit)
-            {
-                m_CharState = m_NextState;
-                m_StateEvent = Event.Enter;
-            }
-        }
-        else if (m_CharState == State.Win)
-        {
-            if (m_StateEvent == Event.Enter)
-            {
-                m_StateEvent = Event.Active;
-            }
-            else if (m_StateEvent == Event.Active)
-            {
-
-            }
-            else if (m_StateEvent == Event.Exit)
-            {
-                m_CharState = m_NextState;
-                m_StateEvent = Event.Enter;
-            }
-        }
-        else if (m_CharState == State.Lose)
-        {
-            if (m_StateEvent == Event.Enter)
-            {
-                m_StateEvent = Event.Active;
-            }
-            else if (m_StateEvent == Event.Active)
-            {
-
-            }
-            else if (m_StateEvent == Event.Exit)
-            {
-                m_CharState = m_NextState;
-                m_StateEvent = Event.Enter;
-            }
-        }
-        */
 
         if (Input.GetKeyDown("escape"))
         {
             Cursor.lockState = CursorLockMode.None;
+        }
+    }
+
+    void Activate_Attack1Point()
+    {
+        attack1Point.SetActive(true);
+    }
+
+    void Deactivate_Attack1Point()
+    {
+        if (attack1Point.activeInHierarchy)
+        {
+            attack1Point.SetActive(false);
         }
     }
 }
