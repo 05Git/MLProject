@@ -14,7 +14,7 @@ public class DamageScript : MonoBehaviour
 
         if (collisions.Length > 0)
         {
-            print("Hit opponent");
+            collisions[0].GetComponent<HealthScript>().ApplyDamage(damage);
             gameObject.SetActive(false);
         }
     }

@@ -120,6 +120,39 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &152727306 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: 201d70ebb89dd5741af28da861422b90,
+    type: 3}
+  m_PrefabInstance: {fileID: 749896693}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &152727307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 152727306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b1940bb18f5c646879937c154add76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+--- !u!114 &152727308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 152727306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b9a893587f45b34ab23fac0fd3397c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1171368365}
+  attack1Point: {fileID: 1076057327}
 --- !u!1 &235683724
 GameObject:
   m_ObjectHideFlags: 0
@@ -309,6 +342,16 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 6428112680797750285, guid: 201d70ebb89dd5741af28da861422b90,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6428112680797750285, guid: 201d70ebb89dd5741af28da861422b90,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 201d70ebb89dd5741af28da861422b90, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -377,20 +420,15 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -0.001732897
       objectReference: {fileID: 0}
-    - target: {fileID: 6428112680797750285, guid: 201d70ebb89dd5741af28da861422b90,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6428112680797750285, guid: 201d70ebb89dd5741af28da861422b90,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4639892860224078804, guid: 201d70ebb89dd5741af28da861422b90,
         type: 3}
       propertyPath: layer.m_Bits
       value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639892860224078804, guid: 201d70ebb89dd5741af28da861422b90,
+        type: 3}
+      propertyPath: damage
+      value: 17
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 201d70ebb89dd5741af28da861422b90, type: 3}
@@ -597,6 +635,12 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &1076057327 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6428112680797750285, guid: 201d70ebb89dd5741af28da861422b90,
+    type: 3}
+  m_PrefabInstance: {fileID: 749896693}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1171368362
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -611,6 +655,11 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 201d70ebb89dd5741af28da861422b90, type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6428112680797750285, guid: 201d70ebb89dd5741af28da861422b90,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 201d70ebb89dd5741af28da861422b90, type: 3}
       propertyPath: m_LocalPosition.x
@@ -680,15 +729,15 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -0.0017329454
       objectReference: {fileID: 0}
-    - target: {fileID: 6428112680797750285, guid: 201d70ebb89dd5741af28da861422b90,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4639892860224078804, guid: 201d70ebb89dd5741af28da861422b90,
         type: 3}
       propertyPath: layer.m_Bits
       value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639892860224078804, guid: 201d70ebb89dd5741af28da861422b90,
+        type: 3}
+      propertyPath: damage
+      value: 17
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 201d70ebb89dd5741af28da861422b90, type: 3}

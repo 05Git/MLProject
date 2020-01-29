@@ -21,7 +21,6 @@ public class PlayerController : MonoBehaviour
     private float m_Speed;
     private State m_CharState;
     private State m_NextState;
-    private Event m_StateEvent;
     private bool m_CanAct;
     private Vector3 m_Movement;
     private Animator m_Animator;
