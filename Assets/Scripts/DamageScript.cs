@@ -7,6 +7,7 @@ public class DamageScript : MonoBehaviour
     public LayerMask layer;
     public float radius = 1.0f;
     public float damage = 1.0f;
+    public GameObject character;
 
     void Update()
     {
@@ -16,6 +17,10 @@ public class DamageScript : MonoBehaviour
         {
             collisions[0].GetComponent<HealthScript>().ApplyDamage(damage);
             gameObject.SetActive(false);
+            if (collisions[0].GetComponent<HealthScript>().GetHeath() <= 0.0f)
+            {
+                character.GetComponent<StateScript>().SetState(StateScript.State.Win);
+            }
         }
     }
 }

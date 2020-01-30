@@ -5,22 +5,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private enum State
-    {
-        Idle,
-        Walk_Normal,
-        Attack,
-        Hitstun,
-        Block,
-        Walk_Block,
-        Blockstun,
-        Win,
-        Lose
-    };
-    
     private float m_Speed;
-    private State m_CharState;
-    private State m_NextState;
     private bool m_CanAct;
     private Vector3 m_Movement;
     private Animator m_Animator;
@@ -36,7 +21,7 @@ public class PlayerController : MonoBehaviour
         m_Animator = GetComponent<Animator>();
         m_Rigidbody = GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.Locked;
-        m_CharState = State.Idle;
+        GetComponent<StateScript>().SetState(StateScript.State.Idle);
         m_CanAct = true;
     }
 
@@ -60,7 +45,7 @@ public class PlayerController : MonoBehaviour
         {
             if (attack)
             {
-                m_CharState = State.Attack;
+                GetComponent<StateScript>().SetState(StateScript.State.Attack);
                 block = false;
                 m_CanAct = false;
                 m_Speed = 1.0f;
@@ -72,11 +57,11 @@ public class PlayerController : MonoBehaviour
             {
                 if (horizontal != 0 || vertical != 0)
                 {
-                    m_CharState = State.Walk_Block;
+                    GetComponent<StateScript>().SetState(StateScript.State.Walk_Block);
                 }
                 else
                 {
-                    m_CharState = State.Block;
+                    GetComponent<StateScript>().SetState(StateScript.State.Block);
                 }
                 m_CanAct = true;
                 m_Speed = 2.8f;
@@ -86,11 +71,11 @@ public class PlayerController : MonoBehaviour
             {
                 if (horizontal != 0 || vertical != 0)
                 {
-                    m_CharState = State.Walk_Normal;
+                    GetComponent<StateScript>().SetState(StateScript.State.Walk_Normal);
                 }
                 else
                 {
-                    m_CharState = State.Idle;
+                    GetComponent<StateScript>().SetState(StateScript.State.Idle);
                 }
                 m_CanAct = true;
                 m_Speed = 5.0f;
