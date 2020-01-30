@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private float m_Speed;
+    private float m_TargetRadius = 6.0f;
     private bool m_CanAct;
     private Vector3 m_Movement;
     private Animator m_Animator;
@@ -84,7 +85,15 @@ public class PlayerController : MonoBehaviour
             horizontal *= m_Speed;
             vertical *= m_Speed;
             m_Movement.Set(-horizontal * Time.deltaTime, 0.0f, vertical * Time.deltaTime);
+            /*
+            float distance = Vector3.Distance(transform.localPosition + m_Movement, target.localPosition);
+            if (m_TargetRadius < distance)
+            {
+                
+            }
+            */
             transform.Translate(m_Movement);
+
             if (target != null)
             {
                 transform.LookAt(target);
