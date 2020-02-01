@@ -47,7 +47,7 @@ public class CharController : MonoBehaviour
                 m_CanAct = false;
                 m_Speed = 1.0f;
                 m_Animator.SetTrigger("Attack1Trigger");
-                StartCoroutine(CanActDelay(0.78f));
+                StartCoroutine(CanActDelay(1.2f));
             }
 
             if (block)
@@ -61,7 +61,7 @@ public class CharController : MonoBehaviour
                     GetComponent<StateScript>().SetState(StateScript.State.Block);
                 }
                 m_CanAct = true;
-                m_Speed = 1.6f;
+                m_Speed = 0.8f;
             }
 
             if (!attack && !block)
@@ -75,7 +75,7 @@ public class CharController : MonoBehaviour
                     GetComponent<StateScript>().SetState(StateScript.State.Idle);
                 }
                 m_CanAct = true;
-                m_Speed = 4.0f;
+                m_Speed = 2.0f;
             }
 
             horizontal *= m_Speed;
