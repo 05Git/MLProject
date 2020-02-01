@@ -21,9 +21,5 @@ public class HealthScript : MonoBehaviour
         {
             m_Health_UI.fillAmount = health / 100.0f;
         }
-        if (health <= 0.0f)
-        {
-            GetComponent<StateScript>().SetState(StateScript.State.Lose);
-        }
     }
 }

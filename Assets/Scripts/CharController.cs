@@ -25,40 +25,58 @@ public class CharController : MonoBehaviour
         m_Animator = GetComponent<Animator>();
         m_Rigidbody = GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.Locked;
-        GetComponent<StateScript>().SetState(StateScript.State.Idle);
-        m_CanAct = true;
-    }
-
-    IEnumerator CanActDelay(float time)
-    {
-        yield return new WaitForSeconds(time);
+        GetComponent<StateScript>().SetNextState(StateScript.State.Idle);
+        GetComponent<StateScript>().UpdateCurrentState();
+        GetComponent<StateScript>().SetCurrentEvent(StateScript.Event.Enter);
         m_CanAct = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+        GetComponent<StateScript>().UpdateCurrentState();
+        StateScript.State currentState = GetComponent<StateScript>().GetCurrentState();
+
+        if (currentState == StateScript.State.Hitstun)
+        {
+            m_CanAct = false;
+            //m_Animator.SetTrigger("HitstunTrigger");
+            StartCoroutine(CanActDelay(0.45f));
+        }
+        else if (currentState == StateScript.State.Blockstun)
+        {
+            m_CanAct = false;
+            //m_Animator.SetTrigger("Blockstun1Trigger");
+            StartCoroutine(CanActDelay(0.2f));
+        }
+        else if (currentState == StateScript.State.Win
+            || currentState == StateScript.State.Lose
+            || currentState == StateScript.State.Draw)
+        {
+            m_CanAct = false;
+        }
+
         if (m_CanAct)
         {
             if (attack)
             {
-                GetComponent<StateScript>().SetState(StateScript.State.Attack);
+                GetComponent<StateScript>().SetNextState(StateScript.State.Attack);
                 block = false;
                 m_CanAct = false;
                 m_Speed = 1.0f;
                 m_Animator.SetTrigger("Attack1Trigger");
-                StartCoroutine(CanActDelay(1.2f));
+                StartCoroutine(CanActDelay(0.9f));
             }
 
             if (block)
             {
                 if (horizontal != 0 || vertical != 0)
                 {
-                    GetComponent<StateScript>().SetState(StateScript.State.Walk_Block);
+                    GetComponent<StateScript>().SetNextState(StateScript.State.Walk_Block);
                 }
                 else
                 {
-                    GetComponent<StateScript>().SetState(StateScript.State.Block);
+                    GetComponent<StateScript>().SetNextState(StateScript.State.Block);
                 }
                 m_CanAct = true;
                 m_Speed = 0.8f;
@@ -68,16 +86,24 @@ public class CharController : MonoBehaviour
             {
                 if (horizontal != 0 || vertical != 0)
                 {
-                    GetComponent<StateScript>().SetState(StateScript.State.Walk_Normal);
+                    GetComponent<StateScript>().SetNextState(StateScript.State.Walk_Normal);
                 }
                 else
                 {
-                    GetComponent<StateScript>().SetState(StateScript.State.Idle);
+                    GetComponent<StateScript>().SetNextState(StateScript.State.Idle);
                 }
                 m_CanAct = true;
                 m_Speed = 2.0f;
             }
-
+            /*
+            bool isMoving = false;
+            if (horizontal != 0.0f || vertical != 0.0f)
+            {
+                isMoving = true;
+            }
+            //m_Animator.SetBool("Moving", isMoving);
+            //m_Animator.SetBool("Blocking", block);
+            */
             horizontal *= m_Speed;
             vertical *= m_Speed;
             m_Movement.Set(-vertical * Time.deltaTime, 0.0f, horizontal * Time.deltaTime);
@@ -94,8 +120,17 @@ public class CharController : MonoBehaviour
             {
                 transform.LookAt(target);
             }
-            //bool isMoving = !Mathf.Approximately(horizontal, 0.0f) || !Mathf.Approximately(vertical, 0.0f);
-            //m_Animator.SetBool("Moving", isMoving);
+        }
+    }
+
+    IEnumerator CanActDelay(float time)
+    {
+        yield return new WaitForSeconds(time);
+        m_CanAct = true;
+        if (GetComponent<StateScript>().GetCurrentState() == StateScript.State.Hitstun
+            || GetComponent<StateScript>().GetCurrentState() == StateScript.State.Blockstun)
+        {
+            GetComponent<StateScript>().SetNextState(StateScript.State.Idle);
         }
     }
 

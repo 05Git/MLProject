@@ -10,27 +10,25 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Application.targetFrameRate = 60;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (player.GetComponent<StateScript>().GetCurrentState() == StateScript.State.Win
-            && enemy.GetComponent<StateScript>().GetCurrentState() == StateScript.State.Lose)
-        {
-            Victory(player, enemy);
-        }
-        else if (player.GetComponent<StateScript>().GetCurrentState() == StateScript.State.Lose
-            && enemy.GetComponent<StateScript>().GetCurrentState() == StateScript.State.Win)
+        if (player.GetComponent<HealthScript>().GetHeath() <= 0)
         {
             Victory(enemy, player);
+        }
+        else if (enemy.GetComponent<HealthScript>().GetHeath() <= 0)
+        {
+            Victory(player, enemy);
         }
     }
 
     public void Victory(GameObject winner, GameObject loser)
     {
-        winner.GetComponent<StateScript>().SetState(StateScript.State.Win);
-        loser.GetComponent<StateScript>().SetState(StateScript.State.Lose);
+        winner.GetComponent<StateScript>().SetNextState(StateScript.State.Win);
+        loser.GetComponent<StateScript>().SetNextState(StateScript.State.Win);
     }
 }

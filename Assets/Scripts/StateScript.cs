@@ -14,18 +14,48 @@ public class StateScript : MonoBehaviour
         Walk_Block,
         Blockstun,
         Win,
-        Lose
+        Lose,
+        Draw
     };
 
-    private State m_CharState;
+    public enum Event
+    {
+        Enter,
+        Update,
+        Exit
+    };
+
+    private State m_CurrentState;
+    private State m_NextState;
+    private Event m_CurrentEvent;
 
     public State GetCurrentState()
     {
-        return m_CharState;
+        return m_CurrentState;
     }
 
-    public void SetState(State state)
+    public void UpdateCurrentState()
     {
-        m_CharState = state;
+        m_CurrentState = m_NextState;
+    }
+
+    public State GetNextState()
+    {
+        return m_NextState;
+    }
+
+    public void SetNextState(State state)
+    {
+        m_NextState = state;
+    }
+
+    public Event GetCurrentEvent()
+    {
+        return m_CurrentEvent;
+    }
+
+    public void SetCurrentEvent(Event val)
+    {
+        m_CurrentEvent = val;
     }
 }
