@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.Timers;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class CharController : MonoBehaviour
 {
     private float m_Speed;
-    private float m_TargetRadius = 6.0f;
     private bool m_CanAct;
     private Vector3 m_Movement;
     private Animator m_Animator;
     private Rigidbody m_Rigidbody;
     private Quaternion m_Rotation = Quaternion.identity;
+    private float horizontal;
+    private float vertical;
+    private bool attack;
+    private bool block;
 
     public Transform target;
     public GameObject attack1Point;
@@ -35,13 +38,6 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float horizontal = Input.GetAxis("Vertical");
-        float vertical = Input.GetAxis("Horizontal");
-        bool attack = Input.GetKeyDown("mouse 0");
-        bool block = Input.GetKey("mouse 1");
-        //bool isMoving = !Mathf.Approximately(horizontal, 0.0f) || !Mathf.Approximately(vertical, 0.0f);
-        //m_Animator.SetBool("Moving", isMoving);
-
         if (m_CanAct)
         {
             if (attack)
@@ -65,7 +61,7 @@ public class PlayerController : MonoBehaviour
                     GetComponent<StateScript>().SetState(StateScript.State.Block);
                 }
                 m_CanAct = true;
-                m_Speed = 2.8f;
+                m_Speed = 1.6f;
             }
 
             if (!attack && !block)
@@ -79,12 +75,12 @@ public class PlayerController : MonoBehaviour
                     GetComponent<StateScript>().SetState(StateScript.State.Idle);
                 }
                 m_CanAct = true;
-                m_Speed = 5.0f;
+                m_Speed = 4.0f;
             }
 
             horizontal *= m_Speed;
             vertical *= m_Speed;
-            m_Movement.Set(-horizontal * Time.deltaTime, 0.0f, vertical * Time.deltaTime);
+            m_Movement.Set(-vertical * Time.deltaTime, 0.0f, horizontal * Time.deltaTime);
             /*
             float distance = Vector3.Distance(transform.localPosition + m_Movement, target.localPosition);
             if (m_TargetRadius < distance)
@@ -98,11 +94,8 @@ public class PlayerController : MonoBehaviour
             {
                 transform.LookAt(target);
             }
-        }
-
-        if (Input.GetKeyDown("escape"))
-        {
-            Cursor.lockState = CursorLockMode.None;
+            //bool isMoving = !Mathf.Approximately(horizontal, 0.0f) || !Mathf.Approximately(vertical, 0.0f);
+            //m_Animator.SetBool("Moving", isMoving);
         }
     }
 
@@ -117,5 +110,25 @@ public class PlayerController : MonoBehaviour
         {
             attack1Point.SetActive(false);
         }
+    }
+
+    public void SetHorizontal(float val)
+    {
+        horizontal = val;
+    }
+
+    public void SetVertical(float val)
+    {
+        vertical = val;
+    }
+
+    public void SetAttack(bool val)
+    {
+        attack = val;
+    }
+
+    public void SetBlock(bool val)
+    {
+        block = val;
     }
 }

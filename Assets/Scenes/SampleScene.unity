@@ -203,6 +203,20 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 749896693}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &152727307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 152727306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce2bdeebd4c9b1f4a9e842f82246793b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1171368365}
+  attack1Point: {fileID: 1076057327}
 --- !u!114 &152727308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,11 +226,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 152727306}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b9a893587f45b34ab23fac0fd3397c3, type: 3}
+  m_Script: {fileID: 11500000, guid: fb91fe1a0c277bf408fdada716803957, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1171368365}
-  attack1Point: {fileID: 1076057327}
 --- !u!1 &186956385
 GameObject:
   m_ObjectHideFlags: 0
@@ -795,6 +807,21 @@ PrefabInstance:
       propertyPath: character
       value: 
       objectReference: {fileID: 152727306}
+    - target: {fileID: 4639892860224078804, guid: 201d70ebb89dd5741af28da861422b90,
+        type: 3}
+      propertyPath: radius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639892860224078804, guid: 201d70ebb89dd5741af28da861422b90,
+        type: 3}
+      propertyPath: hitDamage
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639892860224078804, guid: 201d70ebb89dd5741af28da861422b90,
+        type: 3}
+      propertyPath: blockDamage
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1007421335930487444, guid: 201d70ebb89dd5741af28da861422b90,
         type: 3}
       propertyPath: m_Health_UI
@@ -1290,6 +1317,21 @@ PrefabInstance:
       propertyPath: character
       value: 
       objectReference: {fileID: 1171368363}
+    - target: {fileID: 4639892860224078804, guid: 201d70ebb89dd5741af28da861422b90,
+        type: 3}
+      propertyPath: radius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639892860224078804, guid: 201d70ebb89dd5741af28da861422b90,
+        type: 3}
+      propertyPath: hitDamage
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639892860224078804, guid: 201d70ebb89dd5741af28da861422b90,
+        type: 3}
+      propertyPath: blockDamage
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1007421335930487444, guid: 201d70ebb89dd5741af28da861422b90,
         type: 3}
       propertyPath: m_Health_UI
@@ -1312,7 +1354,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1171368363}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98e5fa34bdb816741977da9f3f610483, type: 3}
+  m_Script: {fileID: 11500000, guid: ce2bdeebd4c9b1f4a9e842f82246793b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1434386451}
@@ -1323,6 +1365,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1171368362}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1171368366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1171368363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7f59af36718f7545848242f4efdbd9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1255804190
 GameObject:
   m_ObjectHideFlags: 0

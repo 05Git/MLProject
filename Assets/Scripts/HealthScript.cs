@@ -25,9 +25,5 @@ public class HealthScript : MonoBehaviour
         {
             GetComponent<StateScript>().SetState(StateScript.State.Lose);
         }
-        else
-        {
-           GetComponent<StateScript>().SetState(StateScript.State.Hitstun);
-        }
     }
 }
