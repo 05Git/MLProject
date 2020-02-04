@@ -11,10 +11,11 @@ public class CharController : MonoBehaviour
     private Animator m_Animator;
     private Rigidbody m_Rigidbody;
     private Quaternion m_Rotation = Quaternion.identity;
-    private float horizontal;
-    private float vertical;
-    private bool attack;
-    private bool block;
+    private float m_Horizontal;
+    private float m_Vertical;
+    private bool m_Attack;
+    private bool m_Block;
+    private int m_RoundsWon;
 
     public Transform target;
     public GameObject attack1Point;
@@ -25,16 +26,14 @@ public class CharController : MonoBehaviour
         m_Animator = GetComponent<Animator>();
         m_Rigidbody = GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.Locked;
-        GetComponent<StateScript>().SetNextState(StateScript.State.Idle);
-        GetComponent<StateScript>().UpdateCurrentState();
-        GetComponent<StateScript>().SetCurrentEvent(StateScript.Event.Enter);
-        m_CanAct = true;
+        GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
+        m_CanAct = false;
+        m_RoundsWon = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        GetComponent<StateScript>().UpdateCurrentState();
         StateScript.State currentState = GetComponent<StateScript>().GetCurrentState();
 
         if (currentState == StateScript.State.Hitstun)
@@ -50,47 +49,46 @@ public class CharController : MonoBehaviour
             StartCoroutine(CanActDelay(0.2f));
         }
         else if (currentState == StateScript.State.Win
-            || currentState == StateScript.State.Lose
-            || currentState == StateScript.State.Draw)
+            || currentState == StateScript.State.Lose)
         {
             m_CanAct = false;
         }
 
         if (m_CanAct)
         {
-            if (attack)
+            if (m_Attack)
             {
-                GetComponent<StateScript>().SetNextState(StateScript.State.Attack);
-                block = false;
+                GetComponent<StateScript>().SetCurrentState(StateScript.State.Attack);
+                m_Block = false;
                 m_CanAct = false;
                 m_Speed = 1.0f;
                 m_Animator.SetTrigger("Attack1Trigger");
                 StartCoroutine(CanActDelay(0.9f));
             }
 
-            if (block)
+            if (m_Block)
             {
-                if (horizontal != 0 || vertical != 0)
+                if (m_Horizontal != 0 || m_Vertical != 0)
                 {
-                    GetComponent<StateScript>().SetNextState(StateScript.State.Walk_Block);
+                    GetComponent<StateScript>().SetCurrentState(StateScript.State.Walk_Block);
                 }
                 else
                 {
-                    GetComponent<StateScript>().SetNextState(StateScript.State.Block);
+                    GetComponent<StateScript>().SetCurrentState(StateScript.State.Block);
                 }
                 m_CanAct = true;
                 m_Speed = 0.8f;
             }
 
-            if (!attack && !block)
+            if (!m_Attack && !m_Block)
             {
-                if (horizontal != 0 || vertical != 0)
+                if (m_Horizontal != 0 || m_Vertical != 0)
                 {
-                    GetComponent<StateScript>().SetNextState(StateScript.State.Walk_Normal);
+                    GetComponent<StateScript>().SetCurrentState(StateScript.State.Walk_Normal);
                 }
                 else
                 {
-                    GetComponent<StateScript>().SetNextState(StateScript.State.Idle);
+                    GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
                 }
                 m_CanAct = true;
                 m_Speed = 2.0f;
@@ -104,9 +102,9 @@ public class CharController : MonoBehaviour
             //m_Animator.SetBool("Moving", isMoving);
             //m_Animator.SetBool("Blocking", block);
             */
-            horizontal *= m_Speed;
-            vertical *= m_Speed;
-            m_Movement.Set(-vertical * Time.deltaTime, 0.0f, horizontal * Time.deltaTime);
+            m_Horizontal *= m_Speed;
+            m_Vertical *= m_Speed;
+            m_Movement.Set(-m_Vertical * Time.deltaTime, 0.0f, m_Horizontal * Time.deltaTime);
             /*
             float distance = Vector3.Distance(transform.localPosition + m_Movement, target.localPosition);
             if (m_TargetRadius < distance)
@@ -130,7 +128,7 @@ public class CharController : MonoBehaviour
         if (GetComponent<StateScript>().GetCurrentState() == StateScript.State.Hitstun
             || GetComponent<StateScript>().GetCurrentState() == StateScript.State.Blockstun)
         {
-            GetComponent<StateScript>().SetNextState(StateScript.State.Idle);
+            GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
         }
     }
 
@@ -147,23 +145,38 @@ public class CharController : MonoBehaviour
         }
     }
 
+    public void AddRoundWin()
+    {
+        m_RoundsWon++;
+    }
+
+    public int GetRoundsWon()
+    {
+        return m_RoundsWon;
+    }
+
     public void SetHorizontal(float val)
     {
-        horizontal = val;
+        m_Horizontal = val;
     }
 
     public void SetVertical(float val)
     {
-        vertical = val;
+        m_Vertical = val;
     }
 
     public void SetAttack(bool val)
     {
-        attack = val;
+        m_Attack = val;
     }
 
     public void SetBlock(bool val)
     {
-        block = val;
+        m_Block = val;
+    }
+
+    public void SetCanAct(bool val)
+    {
+        m_CanAct = val;
     }
 }

@@ -21,12 +21,12 @@ public class DamageScript : MonoBehaviour
                 || collisions[0].GetComponent<StateScript>().GetCurrentState() == StateScript.State.Blockstun)
             {
                 collisions[0].GetComponent<HealthScript>().ApplyDamage(blockDamage);
-                collisions[0].GetComponent<StateScript>().SetNextState(StateScript.State.Blockstun);
+                collisions[0].GetComponent<StateScript>().SetCurrentState(StateScript.State.Blockstun);
             }
             else
             {
                 collisions[0].GetComponent<HealthScript>().ApplyDamage(hitDamage);
-                collisions[0].GetComponent<StateScript>().SetNextState(StateScript.State.Hitstun);
+                collisions[0].GetComponent<StateScript>().SetCurrentState(StateScript.State.Hitstun);
             }
             gameObject.SetActive(false);
         }

@@ -14,6 +14,15 @@ public class HealthScript : MonoBehaviour
         return health;
     }
 
+    public void SetHealth(float val)
+    {
+        health = val;
+        if (m_Health_UI != null)
+        {
+            m_Health_UI.fillAmount = health / 100.0f;
+        }
+    }
+
     public void ApplyDamage(float damage)
     {
         health -= damage;

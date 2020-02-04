@@ -1,34 +1,143 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
+    private float m_Timer = 60;
+    [SerializeField]
+    private Text m_Timer_UI;
+    private bool m_RoundStart;
+    private bool m_RoundEnd;
+    private float m_RoundStart_Timer;
+
     public GameObject player;
     public GameObject enemy;
+    public Vector3 playerStartPosition;
+    public Quaternion playerStartRotation;
+    public Vector3 enemyStartPosition;
+    public Quaternion enemyStartRotation;
 
     // Start is called before the first frame update
     void Start()
     {
         Application.targetFrameRate = 60;
+        m_RoundStart = true;
+        m_RoundEnd = false;
+        m_RoundStart_Timer = 3;
+        player.transform.SetPositionAndRotation(playerStartPosition, playerStartRotation);
+        enemy.transform.SetPositionAndRotation(enemyStartPosition, enemyStartRotation);
+        player.GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
+        enemy.GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
+        player.GetComponent<CharController>().SetCanAct(false);
+        enemy.GetComponent<CharController>().SetCanAct(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (player.GetComponent<HealthScript>().GetHeath() <= 0)
+        if (m_RoundStart == false && m_RoundEnd == false)
         {
-            Victory(enemy, player);
+            m_Timer -= Time.deltaTime;
+            if (m_Timer_UI != null && m_Timer >= 0)
+            {
+                m_Timer_UI.text = string.Format("{0:N0}", m_Timer);
+            }
+            if (player.GetComponent<HealthScript>().GetHeath() <= 0
+                || enemy.GetComponent<HealthScript>().GetHeath() <= 0
+                || m_Timer == 0)
+            {
+                m_RoundEnd = true;
+                RoundEnd();
+            }
         }
-        else if (enemy.GetComponent<HealthScript>().GetHeath() <= 0)
+        else if (m_RoundStart == true)
         {
-            Victory(player, enemy);
+            m_RoundStart_Timer -= Time.deltaTime;
+            print(m_RoundStart_Timer);
+            if (m_RoundStart_Timer <= 0)
+            {
+                m_RoundStart = false;
+                player.GetComponent<CharController>().SetCanAct(true);
+                enemy.GetComponent<CharController>().SetCanAct(true);
+            }
         }
     }
 
-    public void Victory(GameObject winner, GameObject loser)
+    public void RoundEnd()
     {
-        winner.GetComponent<StateScript>().SetNextState(StateScript.State.Win);
-        loser.GetComponent<StateScript>().SetNextState(StateScript.State.Win);
+        player.GetComponent<CharController>().SetCanAct(false);
+        enemy.GetComponent<CharController>().SetCanAct(false);
+        if (player.GetComponent<HealthScript>().GetHeath() <= 0
+            || player.GetComponent<HealthScript>().GetHeath() <= enemy.GetComponent<HealthScript>().GetHeath())
+        {
+            player.GetComponent<StateScript>().SetCurrentState(StateScript.State.Lose);
+        }
+        else
+        {
+            player.GetComponent<StateScript>().SetCurrentState(StateScript.State.Win);
+        }
+
+        if (enemy.GetComponent<HealthScript>().GetHeath() <= 0
+            || enemy.GetComponent<HealthScript>().GetHeath() <= player.GetComponent<HealthScript>().GetHeath())
+        {
+            enemy.GetComponent<StateScript>().SetCurrentState(StateScript.State.Lose);
+        }
+        else
+        {
+            enemy.GetComponent<StateScript>().SetCurrentState(StateScript.State.Win);
+        }
+
+        if (player.GetComponent<StateScript>().GetCurrentState() == StateScript.State.Win)
+        {
+            player.GetComponent<CharController>().AddRoundWin();
+        }
+        else if (enemy.GetComponent<StateScript>().GetCurrentState() == StateScript.State.Win)
+        {
+            enemy.GetComponent<CharController>().AddRoundWin();
+        }
+        else
+        {
+            player.GetComponent<CharController>().AddRoundWin();
+            enemy.GetComponent<CharController>().AddRoundWin();
+        }
+
+        if (player.GetComponent<CharController>().GetRoundsWon() == 3
+            || enemy.GetComponent<CharController>().GetRoundsWon() == 3)
+        {
+            if (player.GetComponent<CharController>().GetRoundsWon() > enemy.GetComponent<CharController>().GetRoundsWon())
+            {
+                // Player Victory
+                // Play win animation
+            }
+            else if (enemy.GetComponent<CharController>().GetRoundsWon() > player.GetComponent<CharController>().GetRoundsWon())
+            {
+                // Enemy Victory
+                // Play lose animation
+            }
+            else
+            {
+                // Draw
+                // Play lose animation
+            }
+        }
+        else
+        {
+            m_Timer = 60;
+            if (m_Timer_UI != null && m_Timer >= 0)
+            {
+                m_Timer_UI.text = string.Format("{0:N0}", m_Timer);
+            }
+            m_RoundStart = true;
+            m_RoundStart_Timer = 3;
+            m_RoundEnd = false;
+            player.transform.SetPositionAndRotation(playerStartPosition, playerStartRotation);
+            enemy.transform.SetPositionAndRotation(enemyStartPosition, enemyStartRotation);
+            player.GetComponent<HealthScript>().SetHealth(100);
+            enemy.GetComponent<HealthScript>().SetHealth(100);
+            player.GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
+            enemy.GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
+        }
     }
 }
