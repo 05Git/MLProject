@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Timers;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CharController : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class CharController : MonoBehaviour
     private bool m_Attack;
     private bool m_Block;
     private int m_RoundsWon;
+    [SerializeField]
+    private Text m_Rounds_UI;
 
     public Transform target;
     public GameObject attack1Point;
@@ -120,7 +123,7 @@ public class CharController : MonoBehaviour
             }
         }
     }
-
+    
     IEnumerator CanActDelay(float time)
     {
         yield return new WaitForSeconds(time);
@@ -148,6 +151,10 @@ public class CharController : MonoBehaviour
     public void AddRoundWin()
     {
         m_RoundsWon++;
+        if (m_Rounds_UI != null)
+        {
+            m_Rounds_UI.text = string.Format("{0}", m_RoundsWon);
+        }
     }
 
     public int GetRoundsWon()

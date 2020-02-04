@@ -55,7 +55,6 @@ public class GameController : MonoBehaviour
         else if (m_RoundStart == true)
         {
             m_RoundStart_Timer -= Time.deltaTime;
-            print(m_RoundStart_Timer);
             if (m_RoundStart_Timer <= 0)
             {
                 m_RoundStart = false;
