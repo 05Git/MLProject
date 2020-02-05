@@ -330,7 +330,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Rounds_UI: {fileID: 127180579}
   target: {fileID: 1171368365}
-  attack1Point: {fileID: 1076057327}
+  AttackPPoint: {fileID: 1194261322}
+  AttackKPoint: {fileID: 1076057327}
+  AttackUBPoint: {fileID: 1075557392}
 --- !u!114 &152727308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -416,6 +418,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 186956385}
   m_CullTransparentMesh: 0
+--- !u!1 &199354681 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2122081926290534745, guid: 201d70ebb89dd5741af28da861422b90,
+    type: 3}
+  m_PrefabInstance: {fileID: 1171368362}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &235683724
 GameObject:
   m_ObjectHideFlags: 0
@@ -941,6 +949,51 @@ PrefabInstance:
       propertyPath: m_Health_UI
       value: 
       objectReference: {fileID: 305945416}
+    - target: {fileID: 2650035183454123498, guid: 201d70ebb89dd5741af28da861422b90,
+        type: 3}
+      propertyPath: layer.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 2650035183454123498, guid: 201d70ebb89dd5741af28da861422b90,
+        type: 3}
+      propertyPath: radius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2650035183454123498, guid: 201d70ebb89dd5741af28da861422b90,
+        type: 3}
+      propertyPath: character
+      value: 
+      objectReference: {fileID: 152727306}
+    - target: {fileID: 2650035183454123498, guid: 201d70ebb89dd5741af28da861422b90,
+        type: 3}
+      propertyPath: blockDamage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2650035183454123498, guid: 201d70ebb89dd5741af28da861422b90,
+        type: 3}
+      propertyPath: hitDamage
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8815506411577095083, guid: 201d70ebb89dd5741af28da861422b90,
+        type: 3}
+      propertyPath: character
+      value: 
+      objectReference: {fileID: 152727306}
+    - target: {fileID: 8815506411577095083, guid: 201d70ebb89dd5741af28da861422b90,
+        type: 3}
+      propertyPath: layer.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 8815506411577095083, guid: 201d70ebb89dd5741af28da861422b90,
+        type: 3}
+      propertyPath: radius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8815506411577095083, guid: 201d70ebb89dd5741af28da861422b90,
+        type: 3}
+      propertyPath: hitDamage
+      value: 14
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 201d70ebb89dd5741af28da861422b90, type: 3}
 --- !u!1 &794702213
@@ -1363,6 +1416,12 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &1075557392 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2122081926290534745, guid: 201d70ebb89dd5741af28da861422b90,
+    type: 3}
+  m_PrefabInstance: {fileID: 749896693}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1076057327 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6428112680797750285, guid: 201d70ebb89dd5741af28da861422b90,
@@ -1490,11 +1549,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 459818, guid: 201d70ebb89dd5741af28da861422b90, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.0000000099258495
       objectReference: {fileID: 0}
     - target: {fileID: 459818, guid: 201d70ebb89dd5741af28da861422b90, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.0017329454
+      value: -0.0017328988
       objectReference: {fileID: 0}
     - target: {fileID: 4639892860224078804, guid: 201d70ebb89dd5741af28da861422b90,
         type: 3}
@@ -1524,13 +1583,58 @@ PrefabInstance:
     - target: {fileID: 4639892860224078804, guid: 201d70ebb89dd5741af28da861422b90,
         type: 3}
       propertyPath: blockDamage
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1007421335930487444, guid: 201d70ebb89dd5741af28da861422b90,
         type: 3}
       propertyPath: m_Health_UI
       value: 
       objectReference: {fileID: 2028412815}
+    - target: {fileID: 2650035183454123498, guid: 201d70ebb89dd5741af28da861422b90,
+        type: 3}
+      propertyPath: blockDamage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2650035183454123498, guid: 201d70ebb89dd5741af28da861422b90,
+        type: 3}
+      propertyPath: character
+      value: 
+      objectReference: {fileID: 1171368363}
+    - target: {fileID: 2650035183454123498, guid: 201d70ebb89dd5741af28da861422b90,
+        type: 3}
+      propertyPath: hitDamage
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2650035183454123498, guid: 201d70ebb89dd5741af28da861422b90,
+        type: 3}
+      propertyPath: radius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2650035183454123498, guid: 201d70ebb89dd5741af28da861422b90,
+        type: 3}
+      propertyPath: layer.m_Bits
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 8815506411577095083, guid: 201d70ebb89dd5741af28da861422b90,
+        type: 3}
+      propertyPath: character
+      value: 
+      objectReference: {fileID: 1171368363}
+    - target: {fileID: 8815506411577095083, guid: 201d70ebb89dd5741af28da861422b90,
+        type: 3}
+      propertyPath: layer.m_Bits
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 8815506411577095083, guid: 201d70ebb89dd5741af28da861422b90,
+        type: 3}
+      propertyPath: radius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8815506411577095083, guid: 201d70ebb89dd5741af28da861422b90,
+        type: 3}
+      propertyPath: hitDamage
+      value: 14
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 201d70ebb89dd5741af28da861422b90, type: 3}
 --- !u!1 &1171368363 stripped
@@ -1553,7 +1657,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Rounds_UI: {fileID: 905668385}
   target: {fileID: 1434386451}
-  attack1Point: {fileID: 366142481}
+  AttackPPoint: {fileID: 2044976461}
+  AttackKPoint: {fileID: 366142481}
+  AttackUBPoint: {fileID: 199354681}
 --- !u!4 &1171368365 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 201d70ebb89dd5741af28da861422b90,
@@ -1572,6 +1678,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7f59af36718f7545848242f4efdbd9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1194261322 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4816507015324680749, guid: 201d70ebb89dd5741af28da861422b90,
+    type: 3}
+  m_PrefabInstance: {fileID: 749896693}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1255804190
 GameObject:
   m_ObjectHideFlags: 0
@@ -2282,6 +2394,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2028412813}
   m_CullTransparentMesh: 0
+--- !u!1 &2044976461 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4816507015324680749, guid: 201d70ebb89dd5741af28da861422b90,
+    type: 3}
+  m_PrefabInstance: {fileID: 1171368362}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2076574563
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,7 +13,9 @@ public class EnemyInput : MonoBehaviour
     {
         GetComponent<CharController>().SetHorizontal(0.0f);
         GetComponent<CharController>().SetVertical(0.0f);
-        GetComponent<CharController>().SetAttack(false);
+        GetComponent<CharController>().SetAttackP(false);
+        GetComponent<CharController>().SetAttackK(false);
+        GetComponent<CharController>().SetAttackUB(false);
         GetComponent<CharController>().SetBlock(false);
     }
 
@@ -27,7 +29,9 @@ public class EnemyInput : MonoBehaviour
         {
             GetComponent<CharController>().SetHorizontal(1.0f);
             GetComponent<CharController>().SetVertical(0.0f);
-            GetComponent<CharController>().SetAttack(false);
+            GetComponent<CharController>().SetAttackP(false);
+            GetComponent<CharController>().SetAttackK(false);
+            GetComponent<CharController>().SetAttackUB(false);
             GetComponent<CharController>().SetBlock(false);
         }
         else if (distance < 3.0f)
@@ -36,14 +40,18 @@ public class EnemyInput : MonoBehaviour
             {
                 GetComponent<CharController>().SetHorizontal(0.0f);
                 GetComponent<CharController>().SetVertical(0.0f);
-                GetComponent<CharController>().SetAttack(true);
+                GetComponent<CharController>().SetAttackP(true);
+                GetComponent<CharController>().SetAttackK(false);
+                GetComponent<CharController>().SetAttackUB(false);
                 GetComponent<CharController>().SetBlock(false);
             }
             else if (playerState == StateScript.State.Attack)
             {
                 GetComponent<CharController>().SetHorizontal(0.0f);
                 GetComponent<CharController>().SetVertical(-1.0f);
-                GetComponent<CharController>().SetAttack(false);
+                GetComponent<CharController>().SetAttackP(false);
+                GetComponent<CharController>().SetAttackK(false);
+                GetComponent<CharController>().SetAttackUB(false);
                 GetComponent<CharController>().SetBlock(true);
             }
             else if (playerState == StateScript.State.Idle || playerState == StateScript.State.Walk_Normal)
@@ -55,14 +63,18 @@ public class EnemyInput : MonoBehaviour
                         StartCoroutine(CallAttack(2.0f));
                         GetComponent<CharController>().SetHorizontal(0.0f);
                         GetComponent<CharController>().SetVertical(1.0f);
-                        GetComponent<CharController>().SetAttack(false);
+                        GetComponent<CharController>().SetAttackP(false);
+                        GetComponent<CharController>().SetAttackK(false);
+                        GetComponent<CharController>().SetAttackUB(false);
                         GetComponent<CharController>().SetBlock(false);
                     }
                     else
                     {
                         GetComponent<CharController>().SetHorizontal(0.0f);
                         GetComponent<CharController>().SetVertical(1.0f);
-                        GetComponent<CharController>().SetAttack(false);
+                        GetComponent<CharController>().SetAttackP(false);
+                        GetComponent<CharController>().SetAttackK(false);
+                        GetComponent<CharController>().SetAttackUB(false);
                         GetComponent<CharController>().SetBlock(false);
                     }
                 }
@@ -70,7 +82,9 @@ public class EnemyInput : MonoBehaviour
                 {
                     GetComponent<CharController>().SetHorizontal(0.0f);
                     GetComponent<CharController>().SetVertical(0.0f);
-                    GetComponent<CharController>().SetAttack(true);
+                    GetComponent<CharController>().SetAttackP(false);
+                    GetComponent<CharController>().SetAttackK(true);
+                    GetComponent<CharController>().SetAttackUB(false);
                     GetComponent<CharController>().SetBlock(false);
                     m_CallAttack = false;
                 }
