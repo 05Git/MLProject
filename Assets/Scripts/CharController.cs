@@ -46,13 +46,13 @@ public class CharController : MonoBehaviour
         if (currentState == StateScript.State.Hitstun)
         {
             m_CanAct = false;
-            //m_Animator.SetTrigger("HitstunTrigger");
+            m_Animator.SetTrigger("HitstunTrigger");
             StartCoroutine(CanActDelay(0.45f));
         }
         else if (currentState == StateScript.State.Blockstun)
         {
             m_CanAct = false;
-            //m_Animator.SetTrigger("Blockstun1Trigger");
+            m_Animator.SetTrigger("BlockstunTrigger");
             StartCoroutine(CanActDelay(0.2f));
         }
         else if (currentState == StateScript.State.Win
@@ -123,15 +123,15 @@ public class CharController : MonoBehaviour
                 m_CanAct = true;
                 m_Speed = 2.0f;
             }
-            /*
+            
             bool isMoving = false;
-            if (horizontal != 0.0f || vertical != 0.0f)
+            if (m_Horizontal != 0.0f || m_Vertical != 0.0f)
             {
                 isMoving = true;
             }
-            //m_Animator.SetBool("Moving", isMoving);
-            //m_Animator.SetBool("Blocking", block);
-            */
+            m_Animator.SetBool("Moving", isMoving);
+            m_Animator.SetBool("Blocking", m_Block);
+            
             m_Horizontal *= m_Speed;
             m_Vertical *= m_Speed;
             m_Movement.Set(-m_Vertical * Time.deltaTime, 0.0f, m_Horizontal * Time.deltaTime);
