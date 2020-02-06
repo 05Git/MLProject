@@ -7,6 +7,7 @@ public class UnblockableDamageScript : MonoBehaviour
     public LayerMask layer;
     public float radius = 1.0f;
     public float hitDamage = 1.0f;
+    public GameObject character;
 
     void Update()
     {

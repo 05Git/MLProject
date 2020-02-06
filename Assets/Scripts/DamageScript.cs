@@ -8,6 +8,7 @@ public class DamageScript : MonoBehaviour
     public float radius = 1.0f;
     public float hitDamage = 1.0f;
     public float blockDamage = 1.0f;
+    public GameObject character;
 
     void Update()
     {
