@@ -46,13 +46,19 @@ public class CharController : MonoBehaviour
         if (currentState == StateScript.State.Hitstun)
         {
             m_CanAct = false;
-            //m_Animator.SetTrigger("HitstunTrigger");
-            StartCoroutine(CanActDelay(0.45f));
+            m_Animator.SetTrigger("HitstunTrigger");
+            m_Speed = 1.1f;
+            m_Movement.Set(-0f, 0f, (-1f * m_Speed) * Time.deltaTime);
+            transform.Translate(m_Movement);
+            StartCoroutine(CanActDelay(0.4f));
         }
         else if (currentState == StateScript.State.Blockstun)
         {
             m_CanAct = false;
-            //m_Animator.SetTrigger("Blockstun1Trigger");
+            m_Animator.SetTrigger("BlockstunTrigger");
+            m_Speed = 0.7f;
+            m_Movement.Set(-0f, 0f, (-1f * m_Speed) * Time.deltaTime);
+            transform.Translate(m_Movement);
             StartCoroutine(CanActDelay(0.2f));
         }
         else if (currentState == StateScript.State.Win
@@ -70,7 +76,7 @@ public class CharController : MonoBehaviour
                 m_AttackK = false;
                 m_AttackUB = false;
                 m_CanAct = false;
-                m_Speed = 1.0f;
+                m_Speed = 0f;
                 m_Animator.SetTrigger("AttackPTrigger");
                 StartCoroutine(CanActDelay(0.3f));
             }
@@ -81,7 +87,7 @@ public class CharController : MonoBehaviour
                 m_Block = false;
                 m_AttackUB = false;
                 m_CanAct = false;
-                m_Speed = 1.0f;
+                m_Speed = 0f;
                 m_Animator.SetTrigger("AttackKTrigger");
                 StartCoroutine(CanActDelay(0.9f));
             }
@@ -91,7 +97,7 @@ public class CharController : MonoBehaviour
                 GetComponent<StateScript>().SetCurrentState(StateScript.State.Attack);
                 m_Block = false;
                 m_CanAct = false;
-                m_Speed = 1.0f;
+                m_Speed = 0f;
                 m_Animator.SetTrigger("AttackUBTrigger");
                 StartCoroutine(CanActDelay(1.3f));
             }
@@ -121,20 +127,20 @@ public class CharController : MonoBehaviour
                     GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
                 }
                 m_CanAct = true;
-                m_Speed = 2.0f;
+                m_Speed = 2f;
             }
-            /*
+            
             bool isMoving = false;
-            if (horizontal != 0.0f || vertical != 0.0f)
+            if (m_Horizontal != 0f || m_Vertical != 0f)
             {
                 isMoving = true;
             }
-            //m_Animator.SetBool("Moving", isMoving);
-            //m_Animator.SetBool("Blocking", block);
-            */
+            m_Animator.SetBool("Moving", isMoving);
+            m_Animator.SetBool("Blocking", m_Block);
+
             m_Horizontal *= m_Speed;
             m_Vertical *= m_Speed;
-            m_Movement.Set(-m_Vertical * Time.deltaTime, 0.0f, m_Horizontal * Time.deltaTime);
+            m_Movement.Set(-m_Vertical * Time.deltaTime, 0f, m_Horizontal * Time.deltaTime);
             /*
             float distance = Vector3.Distance(transform.localPosition + m_Movement, target.localPosition);
             if (m_TargetRadius < distance)
