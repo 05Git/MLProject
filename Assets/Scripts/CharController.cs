@@ -48,24 +48,24 @@ public class CharController : MonoBehaviour
         if (currentState == StateScript.State.Hitstun)
         {
             m_CanAct = false;
-            m_Animator.SetTrigger("HitstunTrigger");
             m_Speed = 1.1f;
             m_Movement.Set(-0f, 0f, (-1f * m_Speed) * Time.deltaTime);
             transform.Translate(m_Movement);
             if (m_WaitingCanAct == false)
             {
+                m_Animator.SetTrigger("HitstunTrigger");
                 StartCoroutine(CanActDelay(0.4f));
             }
         }
         else if (currentState == StateScript.State.Blockstun)
         {
             m_CanAct = false;
-            m_Animator.SetTrigger("BlockstunTrigger");
             m_Speed = 0.7f;
             m_Movement.Set(-0f, 0f, (-1f * m_Speed) * Time.deltaTime);
             transform.Translate(m_Movement);
             if (m_WaitingCanAct == false)
             {
+                m_Animator.SetTrigger("BlockstunTrigger");
                 StartCoroutine(CanActDelay(0.2f));
             }
         }
