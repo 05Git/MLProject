@@ -61,22 +61,13 @@ public class EnemyInput : MonoBehaviour
                     if (m_WaitingForAttack == false)
                     {
                         StartCoroutine(CallAttack(2.0f));
-                        GetComponent<CharController>().SetHorizontal(0.0f);
-                        GetComponent<CharController>().SetVertical(1.0f);
-                        GetComponent<CharController>().SetAttackP(false);
-                        GetComponent<CharController>().SetAttackK(false);
-                        GetComponent<CharController>().SetAttackUB(false);
-                        GetComponent<CharController>().SetBlock(false);
                     }
-                    else
-                    {
-                        GetComponent<CharController>().SetHorizontal(0.0f);
-                        GetComponent<CharController>().SetVertical(1.0f);
-                        GetComponent<CharController>().SetAttackP(false);
-                        GetComponent<CharController>().SetAttackK(false);
-                        GetComponent<CharController>().SetAttackUB(false);
-                        GetComponent<CharController>().SetBlock(false);
-                    }
+                    GetComponent<CharController>().SetHorizontal(0.0f);
+                    GetComponent<CharController>().SetVertical(1.0f);
+                    GetComponent<CharController>().SetAttackP(false);
+                    GetComponent<CharController>().SetAttackK(false);
+                    GetComponent<CharController>().SetAttackUB(false);
+                    GetComponent<CharController>().SetBlock(false);
                 }
                 else
                 {

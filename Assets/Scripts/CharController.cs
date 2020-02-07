@@ -8,6 +8,7 @@ public class CharController : MonoBehaviour
 {
     private float m_Speed;
     private bool m_CanAct;
+    private bool m_WaitingCanAct;
     private Vector3 m_Movement;
     private Animator m_Animator;
     private Rigidbody m_Rigidbody;
@@ -35,6 +36,7 @@ public class CharController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
         m_CanAct = false;
+        m_WaitingCanAct = false;
         m_RoundsWon = 0;
     }
 
@@ -50,7 +52,10 @@ public class CharController : MonoBehaviour
             m_Speed = 1.1f;
             m_Movement.Set(-0f, 0f, (-1f * m_Speed) * Time.deltaTime);
             transform.Translate(m_Movement);
-            StartCoroutine(CanActDelay(0.4f));
+            if (m_WaitingCanAct == false)
+            {
+                StartCoroutine(CanActDelay(0.4f));
+            }
         }
         else if (currentState == StateScript.State.Blockstun)
         {
@@ -59,7 +64,10 @@ public class CharController : MonoBehaviour
             m_Speed = 0.7f;
             m_Movement.Set(-0f, 0f, (-1f * m_Speed) * Time.deltaTime);
             transform.Translate(m_Movement);
-            StartCoroutine(CanActDelay(0.2f));
+            if (m_WaitingCanAct == false)
+            {
+                StartCoroutine(CanActDelay(0.2f));
+            }
         }
         else if (currentState == StateScript.State.Win
             || currentState == StateScript.State.Lose)
@@ -78,7 +86,10 @@ public class CharController : MonoBehaviour
                 m_CanAct = false;
                 m_Speed = 0f;
                 m_Animator.SetTrigger("AttackPTrigger");
-                StartCoroutine(CanActDelay(0.3f));
+                if (m_WaitingCanAct == false)
+                {
+                    StartCoroutine(CanActDelay(0.4f));
+                }
             }
 
             if (m_AttackK)
@@ -89,7 +100,10 @@ public class CharController : MonoBehaviour
                 m_CanAct = false;
                 m_Speed = 0f;
                 m_Animator.SetTrigger("AttackKTrigger");
-                StartCoroutine(CanActDelay(0.9f));
+                if (m_WaitingCanAct == false)
+                {
+                    StartCoroutine(CanActDelay(0.9f));
+                }
             }
 
             if (m_AttackUB)
@@ -99,7 +113,10 @@ public class CharController : MonoBehaviour
                 m_CanAct = false;
                 m_Speed = 0f;
                 m_Animator.SetTrigger("AttackUBTrigger");
-                StartCoroutine(CanActDelay(1.3f));
+                if (m_WaitingCanAct == false)
+                {
+                    StartCoroutine(CanActDelay(1.3f));
+                }
             }
 
             if (m_Block)
@@ -159,13 +176,11 @@ public class CharController : MonoBehaviour
     
     IEnumerator CanActDelay(float time)
     {
+        m_WaitingCanAct = true;
         yield return new WaitForSeconds(time);
         m_CanAct = true;
-        if (GetComponent<StateScript>().GetCurrentState() == StateScript.State.Hitstun
-            || GetComponent<StateScript>().GetCurrentState() == StateScript.State.Blockstun)
-        {
-            GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
-        }
+        m_WaitingCanAct = false;
+        GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
     }
 
     void Activate_AttackKPoint()
@@ -248,6 +263,11 @@ public class CharController : MonoBehaviour
     public void SetBlock(bool val)
     {
         m_Block = val;
+    }
+
+    public bool GetCanAct()
+    {
+        return m_CanAct;
     }
 
     public void SetCanAct(bool val)
