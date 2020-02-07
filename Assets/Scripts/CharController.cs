@@ -88,7 +88,7 @@ public class CharController : MonoBehaviour
                 m_Animator.SetTrigger("AttackPTrigger");
                 if (m_WaitingCanAct == false)
                 {
-                    StartCoroutine(CanActDelay(0.4f));
+                    StartCoroutine(CanActDelay(0.5f));
                 }
             }
 
