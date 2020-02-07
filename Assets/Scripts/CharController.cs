@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class CharController : MonoBehaviour
 {
     private float m_Speed;
+    private float m_TargetRadius = 8f;
     private bool m_CanAct;
     private bool m_AttackCalled;
     private bool m_StunCalled;
@@ -28,6 +29,7 @@ public class CharController : MonoBehaviour
     public GameObject AttackPPoint;
     public GameObject AttackKPoint;
     public GameObject AttackUBPoint;
+    public GameObject UBEffect;
 
     // Start is called before the first frame update
     void Start()
@@ -160,13 +162,11 @@ public class CharController : MonoBehaviour
             m_Horizontal *= m_Speed;
             m_Vertical *= m_Speed;
             m_Movement.Set(-m_Vertical * Time.deltaTime, 0f, m_Horizontal * Time.deltaTime);
-            /*
             float distance = Vector3.Distance(transform.localPosition + m_Movement, target.localPosition);
             if (m_TargetRadius < distance)
             {
-                
+                m_Movement.Set(-m_Vertical * Time.deltaTime, 0f, 1f * Time.deltaTime);
             }
-            */
             transform.Translate(m_Movement);
 
             if (target != null)
@@ -230,6 +230,19 @@ public class CharController : MonoBehaviour
         if (AttackUBPoint.activeInHierarchy)
         {
             AttackUBPoint.SetActive(false);
+        }
+    }
+
+    void Activate_UBEffect()
+    {
+        UBEffect.SetActive(true);
+    }
+
+    void Deactivate_UBEffect()
+    {
+        if (UBEffect.activeInHierarchy)
+        {
+            UBEffect.SetActive(false);
         }
     }
 
