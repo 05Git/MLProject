@@ -21,6 +21,7 @@ public class GameController : MonoBehaviour
     public Vector3 enemyStartPosition;
     public Quaternion enemyStartRotation;
     public Text KO;
+    public Text time;
     public Text playerWins;
     public Text enemyWins;
     public Text draw;
@@ -34,7 +35,7 @@ public class GameController : MonoBehaviour
         m_RoundStart = true;
         m_RoundEnd = false;
         m_RoundStart_Timer = 3f;
-        m_RoundEnd_Timer = 3f;
+        m_RoundEnd_Timer = 5f;
         player.transform.SetPositionAndRotation(playerStartPosition, playerStartRotation);
         enemy.transform.SetPositionAndRotation(enemyStartPosition, enemyStartRotation);
         player.GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
@@ -52,50 +53,115 @@ public class GameController : MonoBehaviour
                 m_Timer_UI.text = string.Format("{0:N0}", m_Timer);
             }
             if (player.GetComponent<HealthScript>().GetHeath() <= 0f
-                || enemy.GetComponent<HealthScript>().GetHeath() <= 0f
-                || m_Timer == 0f)
+                || enemy.GetComponent<HealthScript>().GetHeath() <= 0f)
             {
+                if (KO != null)
+                {
+                    KO.gameObject.SetActive(true);
+                }
+                m_RoundEnd = true;
+                RoundEnd();
+            }
+            else if (m_Timer <= 0f)
+            {
+                if (time != null)
+                {
+                    time.gameObject.SetActive(true);
+                }
                 m_RoundEnd = true;
                 RoundEnd();
             }
         }
         else if (m_RoundStart)
         {
-            if (round != null && m_RoundStart_Timer == 3f)
+            if (m_RoundStart_Timer == 3f)
             {
-                round.text = string.Format("Round {0}", m_CurrentRound);
+                if (round != null)
+                {
+                    round.text = string.Format("Round {0}", m_CurrentRound);
+                }
                 round.gameObject.SetActive(true);
             }
             m_RoundStart_Timer -= Time.deltaTime;
-            if (round != null && fight != null && m_RoundStart_Timer <= 1f && m_RoundStart_Timer > 0f)
+            if (m_RoundStart_Timer <= 1f && m_RoundStart_Timer > 0f)
             {
-                round.gameObject.SetActive(false);
-                fight.gameObject.SetActive(true);
+                if (round != null)
+                {
+                    round.gameObject.SetActive(false);
+                }
+                if (fight != null)
+                {
+                    fight.gameObject.SetActive(true);
+                }
             }
-            else if (fight != null && m_RoundStart_Timer <= 0f)
+            else if (m_RoundStart_Timer <= 0f)
             {
-                fight.gameObject.SetActive(false);
+                if (fight != null)
+                {
+                    fight.gameObject.SetActive(false);
+                }
                 m_RoundStart = false;
+                player.GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
+                enemy.GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
             }
         }
         else if (m_RoundEnd)
         {
             m_RoundEnd_Timer -= Time.deltaTime;
-            if (m_RoundEnd_Timer <= 1f && m_RoundEnd_Timer > 0f)
+            if (m_RoundEnd_Timer <= 3f && m_RoundEnd_Timer > 1f)
             {
                 if (KO != null)
                 {
                     KO.gameObject.SetActive(false);
                 }
+                if (time != null)
+                {
+                    time.gameObject.SetActive(false);
+                }
+                if (player.GetComponent<StateScript>().GetCurrentState() == StateScript.State.Win)
+                {
+                    if (playerWins != null)
+                    {
+                        playerWins.gameObject.SetActive(true);
+                    }
+                }
+                else if (enemy.GetComponent<StateScript>().GetCurrentState() == StateScript.State.Win)
+                {
+                    if (enemyWins != null)
+                    {
+                        enemyWins.gameObject.SetActive(true);
+                    }
+                }
+                else
+                {
+                    if (draw != null)
+                    {
+                        draw.gameObject.SetActive(true);
+                    }
+                }
             }
-            else if (m_RoundEnd_Timer <= 0f)
+            else if (m_RoundEnd_Timer <= 1f)
             {
+                if (playerWins != null)
+                {
+                    playerWins.gameObject.SetActive(false);
+                }
+                if (enemyWins != null)
+                {
+                    enemyWins.gameObject.SetActive(false);
+                }
+                if (draw != null)
+                {
+                    draw.gameObject.SetActive(false);
+                }
+                
                 player.transform.SetPositionAndRotation(playerStartPosition, playerStartRotation);
                 enemy.transform.SetPositionAndRotation(enemyStartPosition, enemyStartRotation);
                 player.GetComponent<HealthScript>().SetHealth(100);
                 enemy.GetComponent<HealthScript>().SetHealth(100);
                 player.GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
                 enemy.GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
+
                 m_Timer = 60;
                 if (m_Timer_UI != null && m_Timer >= 0)
                 {
@@ -110,10 +176,6 @@ public class GameController : MonoBehaviour
 
     public void RoundEnd()
     {
-        if (KO != null)
-        {
-            KO.gameObject.SetActive(true);
-        }
         if (player.GetComponent<HealthScript>().GetHeath() <= 0
             || player.GetComponent<HealthScript>().GetHeath() <= enemy.GetComponent<HealthScript>().GetHeath())
         {
@@ -169,7 +231,7 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            m_RoundEnd_Timer = 3f;
+            m_RoundEnd_Timer = 5f;
             m_CurrentRound++;
         }
     }

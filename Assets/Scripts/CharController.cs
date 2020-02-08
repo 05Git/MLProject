@@ -78,6 +78,10 @@ public class CharController : MonoBehaviour
         {
             m_CanAct = false;
         }
+        else
+        {
+            m_CanAct = true;
+        }
 
         if (m_CanAct)
         {
@@ -89,9 +93,9 @@ public class CharController : MonoBehaviour
                 m_AttackUB = false;
                 m_CanAct = false;
                 m_Speed = 0f;
-                m_Animator.SetTrigger("AttackPTrigger");
                 if (m_AttackCalled == false)
                 {
+                    m_Animator.SetTrigger("AttackPTrigger");
                     StartCoroutine(AttackCanActDelay(0.5f));
                 }
             }
@@ -103,9 +107,9 @@ public class CharController : MonoBehaviour
                 m_AttackUB = false;
                 m_CanAct = false;
                 m_Speed = 0f;
-                m_Animator.SetTrigger("AttackKTrigger");
                 if (m_AttackCalled == false)
                 {
+                    m_Animator.SetTrigger("AttackKTrigger");
                     StartCoroutine(AttackCanActDelay(0.9f));
                 }
             }
@@ -116,9 +120,9 @@ public class CharController : MonoBehaviour
                 m_Block = false;
                 m_CanAct = false;
                 m_Speed = 0f;
-                m_Animator.SetTrigger("AttackUBTrigger");
                 if (m_AttackCalled == false)
                 {
+                    m_Animator.SetTrigger("AttackUBTrigger");
                     StartCoroutine(AttackCanActDelay(1.3f));
                 }
             }
@@ -182,7 +186,10 @@ public class CharController : MonoBehaviour
         yield return new WaitForSeconds(time);
         m_CanAct = true;
         m_AttackCalled = false;
-        GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
+        if (GetComponent<StateScript>().GetCurrentState() == StateScript.State.Attack)
+        {
+            GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
+        }
     }
 
     IEnumerator StunCanActDelay(float time)
@@ -192,7 +199,11 @@ public class CharController : MonoBehaviour
         m_CanAct = true;
         m_StunCalled = false;
         m_AttackCalled = false;
-        GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
+        if (GetComponent<StateScript>().GetCurrentState() == StateScript.State.Hitstun
+            || GetComponent<StateScript>().GetCurrentState() == StateScript.State.Blockstun)
+        {
+            GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
+        }
     }
 
     void Activate_AttackKPoint()
