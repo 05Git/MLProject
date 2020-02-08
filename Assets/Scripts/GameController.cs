@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -154,22 +155,41 @@ public class GameController : MonoBehaviour
                 {
                     draw.gameObject.SetActive(false);
                 }
-                
-                player.transform.SetPositionAndRotation(playerStartPosition, playerStartRotation);
-                enemy.transform.SetPositionAndRotation(enemyStartPosition, enemyStartRotation);
-                player.GetComponent<HealthScript>().SetHealth(100);
-                enemy.GetComponent<HealthScript>().SetHealth(100);
-                player.GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
-                enemy.GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
 
-                m_Timer = 60;
-                if (m_Timer_UI != null && m_Timer >= 0)
+                if (player.GetComponent<CharController>().GetRoundsWon() == 3
+                || enemy.GetComponent<CharController>().GetRoundsWon() == 3)
                 {
-                    m_Timer_UI.text = string.Format("{0:N0}", m_Timer);
+                    if (player.GetComponent<CharController>().GetRoundsWon() > enemy.GetComponent<CharController>().GetRoundsWon())
+                    {
+                        SceneManager.LoadScene("Victory_Player");
+                    }
+                    else if (enemy.GetComponent<CharController>().GetRoundsWon() > player.GetComponent<CharController>().GetRoundsWon())
+                    {
+                        SceneManager.LoadScene("Victory_Enemy");
+                    }
+                    else
+                    {
+                        SceneManager.LoadScene("Victory_Draw");
+                    }
                 }
-                m_RoundStart = true;
-                m_RoundStart_Timer = 3;
-                m_RoundEnd = false;
+                else
+                {
+                    player.transform.SetPositionAndRotation(playerStartPosition, playerStartRotation);
+                    enemy.transform.SetPositionAndRotation(enemyStartPosition, enemyStartRotation);
+                    player.GetComponent<HealthScript>().SetHealth(100);
+                    enemy.GetComponent<HealthScript>().SetHealth(100);
+                    player.GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
+                    enemy.GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
+
+                    m_Timer = 60;
+                    if (m_Timer_UI != null && m_Timer >= 0)
+                    {
+                        m_Timer_UI.text = string.Format("{0:N0}", m_Timer);
+                    }
+                    m_RoundStart = true;
+                    m_RoundStart_Timer = 3;
+                    m_RoundEnd = false;
+                }
             }
         }
     }
@@ -209,31 +229,9 @@ public class GameController : MonoBehaviour
             player.GetComponent<CharController>().AddRoundWin();
             enemy.GetComponent<CharController>().AddRoundWin();
         }
-
-        if (player.GetComponent<CharController>().GetRoundsWon() == 3
-            || enemy.GetComponent<CharController>().GetRoundsWon() == 3)
-        {
-            if (player.GetComponent<CharController>().GetRoundsWon() > enemy.GetComponent<CharController>().GetRoundsWon())
-            {
-                // Player Victory
-                // Play win animation
-            }
-            else if (enemy.GetComponent<CharController>().GetRoundsWon() > player.GetComponent<CharController>().GetRoundsWon())
-            {
-                // Enemy Victory
-                // Play lose animation
-            }
-            else
-            {
-                // Draw
-                // Play lose animation
-            }
-        }
-        else
-        {
-            m_RoundEnd_Timer = 5f;
-            m_CurrentRound++;
-        }
+        
+        m_RoundEnd_Timer = 5f;
+        m_CurrentRound++;
     }
 
     public bool GetRoundStart()
