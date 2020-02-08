@@ -38,7 +38,7 @@ public class CharController : MonoBehaviour
         m_Rigidbody = GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.Locked;
         GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
-        m_CanAct = false;
+        m_CanAct = true;
         m_AttackCalled = false;
         m_StunCalled = false;
         m_RoundsWon = 0;
@@ -285,9 +285,26 @@ public class CharController : MonoBehaviour
         m_AttackUB = val;
     }
 
+    public bool GetAttack()
+    {
+        if (m_AttackP || m_AttackK || m_AttackUB)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public void SetBlock(bool val)
     {
         m_Block = val;
+    }
+
+    public bool GetBlock()
+    {
+        return m_Block;
     }
 
     public bool GetCanAct()

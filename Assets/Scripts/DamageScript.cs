@@ -16,17 +16,21 @@ public class DamageScript : MonoBehaviour
 
         if (collisions.Length > 0)
         {
-            if (collisions[0].GetComponent<StateScript>().GetCurrentState() == StateScript.State.Block
+            if (collisions[0].GetComponent<StateScript>().GetCurrentState() != StateScript.State.Win
+                || collisions[0].GetComponent<StateScript>().GetCurrentState() != StateScript.State.Win)
+            {
+                if (collisions[0].GetComponent<StateScript>().GetCurrentState() == StateScript.State.Block
                 || collisions[0].GetComponent<StateScript>().GetCurrentState() == StateScript.State.Walk_Block
                 || collisions[0].GetComponent<StateScript>().GetCurrentState() == StateScript.State.Blockstun)
-            {
-                collisions[0].GetComponent<HealthScript>().ApplyDamage(blockDamage);
-                collisions[0].GetComponent<StateScript>().SetCurrentState(StateScript.State.Blockstun);
-            }
-            else
-            {
-                collisions[0].GetComponent<HealthScript>().ApplyDamage(hitDamage);
-                collisions[0].GetComponent<StateScript>().SetCurrentState(StateScript.State.Hitstun);
+                {
+                    collisions[0].GetComponent<HealthScript>().ApplyDamage(blockDamage);
+                    collisions[0].GetComponent<StateScript>().SetCurrentState(StateScript.State.Blockstun);
+                }
+                else
+                {
+                    collisions[0].GetComponent<HealthScript>().ApplyDamage(hitDamage);
+                    collisions[0].GetComponent<StateScript>().SetCurrentState(StateScript.State.Hitstun);
+                }
             }
             gameObject.SetActive(false);
         }

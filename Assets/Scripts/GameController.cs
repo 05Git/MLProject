@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
     private bool m_RoundEnd;
     private float m_RoundStart_Timer;
     private float m_RoundEnd_Timer;
+    private int m_CurrentRound = 1;
 
     public GameObject player;
     public GameObject enemy;
@@ -23,6 +24,8 @@ public class GameController : MonoBehaviour
     public Text playerWins;
     public Text enemyWins;
     public Text draw;
+    public Text round;
+    public Text fight;
 
     // Start is called before the first frame update
     void Start()
@@ -36,8 +39,6 @@ public class GameController : MonoBehaviour
         enemy.transform.SetPositionAndRotation(enemyStartPosition, enemyStartRotation);
         player.GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
         enemy.GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
-        player.GetComponent<CharController>().SetCanAct(false);
-        enemy.GetComponent<CharController>().SetCanAct(false);
     }
 
     // Update is called once per frame
@@ -60,23 +61,41 @@ public class GameController : MonoBehaviour
         }
         else if (m_RoundStart)
         {
-            m_RoundStart_Timer -= Time.deltaTime;
-            if (m_RoundStart_Timer <= 0f)
+            if (round != null && m_RoundStart_Timer == 3f)
             {
+                round.text = string.Format("Round {0}", m_CurrentRound);
+                round.gameObject.SetActive(true);
+            }
+            m_RoundStart_Timer -= Time.deltaTime;
+            if (round != null && fight != null && m_RoundStart_Timer <= 1f && m_RoundStart_Timer > 0f)
+            {
+                round.gameObject.SetActive(false);
+                fight.gameObject.SetActive(true);
+            }
+            else if (fight != null && m_RoundStart_Timer <= 0f)
+            {
+                fight.gameObject.SetActive(false);
                 m_RoundStart = false;
-                player.GetComponent<CharController>().SetCanAct(true);
-                enemy.GetComponent<CharController>().SetCanAct(true);
             }
         }
         else if (m_RoundEnd)
         {
             m_RoundEnd_Timer -= Time.deltaTime;
-            if (m_RoundEnd_Timer <= 1f)
+            if (m_RoundEnd_Timer <= 1f && m_RoundEnd_Timer > 0f)
             {
-                KO.gameObject.SetActive(false);
+                if (KO != null)
+                {
+                    KO.gameObject.SetActive(false);
+                }
             }
-            if (m_RoundStart_Timer <= 0f)
+            else if (m_RoundEnd_Timer <= 0f)
             {
+                player.transform.SetPositionAndRotation(playerStartPosition, playerStartRotation);
+                enemy.transform.SetPositionAndRotation(enemyStartPosition, enemyStartRotation);
+                player.GetComponent<HealthScript>().SetHealth(100);
+                enemy.GetComponent<HealthScript>().SetHealth(100);
+                player.GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
+                enemy.GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
                 m_Timer = 60;
                 if (m_Timer_UI != null && m_Timer >= 0)
                 {
@@ -85,21 +104,16 @@ public class GameController : MonoBehaviour
                 m_RoundStart = true;
                 m_RoundStart_Timer = 3;
                 m_RoundEnd = false;
-                player.transform.SetPositionAndRotation(playerStartPosition, playerStartRotation);
-                enemy.transform.SetPositionAndRotation(enemyStartPosition, enemyStartRotation);
-                player.GetComponent<HealthScript>().SetHealth(100);
-                enemy.GetComponent<HealthScript>().SetHealth(100);
-                player.GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
-                enemy.GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
             }
         }
     }
 
     public void RoundEnd()
     {
-        KO.gameObject.SetActive(true);
-        player.GetComponent<CharController>().SetCanAct(false);
-        enemy.GetComponent<CharController>().SetCanAct(false);
+        if (KO != null)
+        {
+            KO.gameObject.SetActive(true);
+        }
         if (player.GetComponent<HealthScript>().GetHeath() <= 0
             || player.GetComponent<HealthScript>().GetHeath() <= enemy.GetComponent<HealthScript>().GetHeath())
         {
@@ -156,6 +170,17 @@ public class GameController : MonoBehaviour
         else
         {
             m_RoundEnd_Timer = 3f;
+            m_CurrentRound++;
         }
+    }
+
+    public bool GetRoundStart()
+    {
+        return m_RoundStart;
+    }
+
+    public bool GetRoundEnd()
+    {
+        return m_RoundEnd;
     }
 }

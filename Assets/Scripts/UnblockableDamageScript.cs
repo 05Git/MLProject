@@ -15,8 +15,12 @@ public class UnblockableDamageScript : MonoBehaviour
 
         if (collisions.Length > 0)
         {
-            collisions[0].GetComponent<HealthScript>().ApplyDamage(hitDamage);
-            collisions[0].GetComponent<StateScript>().SetCurrentState(StateScript.State.Hitstun);
+            if (collisions[0].GetComponent<StateScript>().GetCurrentState() != StateScript.State.Win
+                || collisions[0].GetComponent<StateScript>().GetCurrentState() != StateScript.State.Win)
+            {
+                collisions[0].GetComponent<HealthScript>().ApplyDamage(hitDamage);
+                collisions[0].GetComponent<StateScript>().SetCurrentState(StateScript.State.Hitstun);
+            }
             gameObject.SetActive(false);
         }
     }
