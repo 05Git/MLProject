@@ -122,17 +122,10 @@ public class Align3DCam : MonoBehaviour
         // We create a quaternion that looks in the initial direction and rotate it 90 degrees
         Quaternion q = Quaternion.LookRotation(diff, Vector3.up) * Quaternion.Euler(0, 90, 0);
 
-        // We create a second one that is rotated 180 degrees.
-        Quaternion qA = q * Quaternion.Euler(0, 180, 0);
-
         // We determine the angle between the current rotation and the two previously created rotations.
         float angle = Quaternion.Angle(q, transform.rotation);
-        float angleA = Quaternion.Angle(qA, transform.rotation);
 
-        // The transform's rotation is set to whichever one is closer to the current rotation.
-        if (angle < angleA)
-            transform.rotation = q;
-        else
-            transform.rotation = qA;
+        // The transform's rotation is set.
+        transform.rotation = q;
     }
 }

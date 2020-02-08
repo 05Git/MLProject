@@ -333,7 +333,7 @@ MonoBehaviour:
   AttackPPoint: {fileID: 1194261322}
   AttackKPoint: {fileID: 1076057327}
   AttackUBPoint: {fileID: 1075557392}
-  UBEffect: {fileID: 1075557392}
+  UBEffect: {fileID: 0}
 --- !u!114 &152727308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -341,7 +341,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 152727306}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fb91fe1a0c277bf408fdada716803957, type: 3}
   m_Name: 
@@ -1832,7 +1832,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 459818, guid: 201d70ebb89dd5741af28da861422b90, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.001732897
+      value: -0.0017328989
       objectReference: {fileID: 0}
     - target: {fileID: 4639892860224078804, guid: 201d70ebb89dd5741af28da861422b90,
         type: 3}
@@ -1979,7 +1979,7 @@ MonoBehaviour:
   AttackPPoint: {fileID: 2044976461}
   AttackKPoint: {fileID: 366142481}
   AttackUBPoint: {fileID: 199354681}
-  UBEffect: {fileID: 1171368367}
+  UBEffect: {fileID: 0}
 --- !u!4 &1171368365 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 201d70ebb89dd5741af28da861422b90,
@@ -1998,12 +1998,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7f59af36718f7545848242f4efdbd9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1171368367 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4740937506777470249, guid: 201d70ebb89dd5741af28da861422b90,
-    type: 3}
-  m_PrefabInstance: {fileID: 1171368362}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1194261322 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4816507015324680749, guid: 201d70ebb89dd5741af28da861422b90,
