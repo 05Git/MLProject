@@ -9,8 +9,9 @@ public class CharController : MonoBehaviour
     private float m_Speed;
     private float m_TargetRadius = 8f;
     private bool m_CanAct;
-    private bool m_AttackCalled;
-    private bool m_StunCalled;
+    private bool m_HitRecieved;
+    private int m_StunAnims = 0;
+    private int m_AttackCalls = 0;
     private Vector3 m_Movement;
     private Animator m_Animator;
     private Rigidbody m_Rigidbody;
@@ -39,8 +40,7 @@ public class CharController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
         m_CanAct = true;
-        m_AttackCalled = false;
-        m_StunCalled = false;
+        m_HitRecieved = false;
         m_RoundsWon = 0;
     }
 
@@ -55,7 +55,7 @@ public class CharController : MonoBehaviour
             m_Speed = 1.1f;
             m_Movement.Set(-0f, 0f, (-1f * m_Speed) * Time.deltaTime);
             transform.Translate(m_Movement);
-            if (m_StunCalled == false)
+            if (m_HitRecieved)
             {
                 m_Animator.SetTrigger("HitstunTrigger");
                 StartCoroutine(StunCanActDelay(0.4f));
@@ -67,14 +67,15 @@ public class CharController : MonoBehaviour
             m_Speed = 0.7f;
             m_Movement.Set(-0f, 0f, (-1f * m_Speed) * Time.deltaTime);
             transform.Translate(m_Movement);
-            if (m_StunCalled == false)
+            if (m_HitRecieved)
             {
                 m_Animator.SetTrigger("BlockstunTrigger");
                 StartCoroutine(StunCanActDelay(0.2f));
             }
         }
         else if (currentState == StateScript.State.Win
-            || currentState == StateScript.State.Lose)
+            || currentState == StateScript.State.Lose
+            || currentState == StateScript.State.Attack)
         {
             m_CanAct = false;
         }
@@ -82,6 +83,7 @@ public class CharController : MonoBehaviour
         {
             m_CanAct = true;
         }
+        m_Animator.SetBool("CanAct", m_CanAct);
 
         if (m_CanAct)
         {
@@ -91,13 +93,9 @@ public class CharController : MonoBehaviour
                 m_Block = false;
                 m_AttackK = false;
                 m_AttackUB = false;
-                m_CanAct = false;
                 m_Speed = 0f;
-                if (m_AttackCalled == false)
-                {
-                    m_Animator.SetTrigger("AttackPTrigger");
-                    StartCoroutine(AttackCanActDelay(0.5f));
-                }
+                m_Animator.SetTrigger("AttackPTrigger");
+                StartCoroutine(AttackCanActDelay(0.4f));
             }
 
             if (m_AttackK)
@@ -105,26 +103,18 @@ public class CharController : MonoBehaviour
                 GetComponent<StateScript>().SetCurrentState(StateScript.State.Attack);
                 m_Block = false;
                 m_AttackUB = false;
-                m_CanAct = false;
                 m_Speed = 0f;
-                if (m_AttackCalled == false)
-                {
-                    m_Animator.SetTrigger("AttackKTrigger");
-                    StartCoroutine(AttackCanActDelay(0.9f));
-                }
+                m_Animator.SetTrigger("AttackKTrigger");
+                StartCoroutine(AttackCanActDelay(0.9f));
             }
 
             if (m_AttackUB)
             {
                 GetComponent<StateScript>().SetCurrentState(StateScript.State.Attack);
                 m_Block = false;
-                m_CanAct = false;
                 m_Speed = 0f;
-                if (m_AttackCalled == false)
-                {
-                    m_Animator.SetTrigger("AttackUBTrigger");
-                    StartCoroutine(AttackCanActDelay(1.3f));
-                }
+                m_Animator.SetTrigger("AttackUBTrigger");
+                StartCoroutine(AttackCanActDelay(1.3f));
             }
 
             if (m_Block)
@@ -137,7 +127,6 @@ public class CharController : MonoBehaviour
                 {
                     GetComponent<StateScript>().SetCurrentState(StateScript.State.Block);
                 }
-                m_CanAct = true;
                 m_Speed = 0.8f;
             }
 
@@ -151,7 +140,6 @@ public class CharController : MonoBehaviour
                 {
                     GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
                 }
-                m_CanAct = true;
                 m_Speed = 2f;
             }
             
@@ -182,10 +170,7 @@ public class CharController : MonoBehaviour
     
     IEnumerator AttackCanActDelay(float time)
     {
-        m_AttackCalled = true;
         yield return new WaitForSeconds(time);
-        m_CanAct = true;
-        m_AttackCalled = false;
         if (GetComponent<StateScript>().GetCurrentState() == StateScript.State.Attack)
         {
             GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
@@ -194,13 +179,11 @@ public class CharController : MonoBehaviour
 
     IEnumerator StunCanActDelay(float time)
     {
-        m_StunCalled = true;
+        m_HitRecieved = false;
+        m_StunAnims++;
         yield return new WaitForSeconds(time);
-        m_CanAct = true;
-        m_StunCalled = false;
-        m_AttackCalled = false;
-        if (GetComponent<StateScript>().GetCurrentState() == StateScript.State.Hitstun
-            || GetComponent<StateScript>().GetCurrentState() == StateScript.State.Blockstun)
+        m_StunAnims--;
+        if (m_StunAnims == 0)
         {
             GetComponent<StateScript>().SetCurrentState(StateScript.State.Idle);
         }
@@ -326,5 +309,15 @@ public class CharController : MonoBehaviour
     public void SetCanAct(bool val)
     {
         m_CanAct = val;
+    }
+
+    public bool GetHitRecieved()
+    {
+        return m_HitRecieved;
+    }
+
+    public void SetHitRecieved(bool val)
+    {
+        m_HitRecieved = val;
     }
 }

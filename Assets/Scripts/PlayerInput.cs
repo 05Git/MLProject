@@ -15,8 +15,8 @@ public class PlayerInput : MonoBehaviour
             float horizontal = Input.GetAxis("Horizontal");
             float vertical = Input.GetAxis("Vertical");
             bool attackP = Input.GetKeyDown("i");
-            bool attackK = Input.GetKey("o");
-            bool attackUB = Input.GetKey("p");
+            bool attackK = Input.GetKeyDown("o");
+            bool attackUB = Input.GetKeyDown("p");
             bool block = Input.GetKey("j");
             GetComponent<CharController>().SetHorizontal(horizontal);
             GetComponent<CharController>().SetVertical(vertical);

@@ -400,17 +400,7 @@ ModelImporter:
       might lower retargeting quality:\nNote: Activate translation DOF on avatar to
       improve retargeting quality.\n\t'B_Spine' has translation animation that will
       be discarded.\n"
-    animationRetargetingWarnings: "\nRetargeting quality report for clip 'Take 001':\n\tLeftUpperArm
-      average position error 2.4 mm and maximum position error 5.2 mm at time 0:12
-      (35.3%) Frame 12\n\tLeftLowerArm average position error 2.4 mm and maximum position
-      error 5.3 mm at time 0:12 (35.3%) Frame 12\n\tLeftHand average position error
-      2.4 mm and maximum position error 5.2 mm at time 0:12 (35.3%) Frame 12\n\tRightUpperArm
-      average position error 2.4 mm and maximum position error 5.2 mm at time 0:12
-      (35.3%) Frame 12\n\tRightLowerArm average position error 2.4 mm and maximum
-      position error 5.2 mm at time 0:12 (35.3%) Frame 12\n\tRightHand average position
-      error 2.4 mm and maximum position error 5.2 mm at time 0:12 (35.3%) Frame 12\n\tHead
-      average position error 2.4 mm and maximum position error 5.2 mm at time 0:12
-      (35.3%) Frame 12\n"
+    animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
@@ -427,7 +417,7 @@ ModelImporter:
       takeName: Take 001
       internalID: 0
       firstFrame: 0
-      lastFrame: 34
+      lastFrame: 28
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
