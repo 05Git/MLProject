@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class CharController : MonoBehaviour
 {
     private float m_Speed;
-    private float m_TargetRadius = 8f;
+    private float m_TargetRadius = 5f;
     private bool m_CanAct;
     private bool m_HitRecieved;
     private int m_StunAnims = 0;

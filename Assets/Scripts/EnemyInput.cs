@@ -28,13 +28,6 @@ public class EnemyInput : MonoBehaviour
         if (!gameController.GetComponent<GameController>().GetRoundStart()
             && !gameController.GetComponent<GameController>().GetRoundEnd())
         {
-            GetComponent<CharController>().SetHorizontal(0.0f);
-            GetComponent<CharController>().SetVertical(0.0f);
-            GetComponent<CharController>().SetAttackP(true);
-            GetComponent<CharController>().SetAttackK(false);
-            GetComponent<CharController>().SetAttackUB(false);
-            GetComponent<CharController>().SetBlock(false);
-            /*
             if (m_State_Timer > 0f)
             {
                 m_State_Timer -= Time.deltaTime;
@@ -447,7 +440,6 @@ public class EnemyInput : MonoBehaviour
                     }
                 }
             }
-            */
         }
         else
         {
