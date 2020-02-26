@@ -31,7 +31,7 @@ public class DamageScript : MonoBehaviour
                     collisions[0].GetComponent<HealthScript>().ApplyDamage(hitDamage);
                     collisions[0].GetComponent<StateScript>().SetCurrentState(StateScript.State.Hitstun);
                 }
-                collisions[0].GetComponent<CharController>().SetHitRecieved(true);
+                collisions[0].GetComponent<CharController>().SetHitRecievedTrue();
             }
             gameObject.SetActive(false);
         }
